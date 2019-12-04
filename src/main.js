@@ -1,11 +1,21 @@
 // 导入vue
-import Vue from 'vue'
+import Vue from 'vue';
+// 导入vant
+import Vant from 'vant';
+// 导入vant css
+import 'vant/lib/index.css';
+// use vant
+Vue.use(Vant);
 // 导入根组件
-import App from './App.vue'
+import App from './App.vue';
 // 导入路由
-import router from './router'
+import router from './router';
 // 导入仓库
-import store from './store'
+import store from './store';
+// 导入初始化css
+import './style/base.css';
+// 导入字体文件
+import './style/iconfont.css';
 // 设置为开发环境
 Vue.config.productionTip = false
 // vue实例
