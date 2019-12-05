@@ -57,8 +57,8 @@ export default {
     return {
       // 输入框内容
       user: {
-        mobile: "13711111111",
-        code: "246810"
+        mobile: "",
+        code: ""
       },
       // 输入框错误提示
       userError: {
@@ -76,25 +76,25 @@ export default {
         return;
       }
       this.isLoading = true;
-      try {
-        setTimeout(async () => {
+      setTimeout(async () => {
+        try {
           let res = await userApi.login(this.user);
           // vuex
           this.$store.commit("SETINFO", res.data.data);
           // 本地存储
           localData.set("userToken", res.data.data);
-          // 关闭loading效果
-          this.isLoading = false;
           // 跳转home
           this.$router.push("/home");
-        }, 1000);
-      } catch (error) {
-        return this.$toast({
-          message: "手机号或验证码错误!",
-          type: "fail",
-          closeOnClick: true
-        });
-      }
+        } catch (error) {
+          this.$toast({
+            message: "手机号或验证码错误!",
+            type: "fail",
+            closeOnClick: true
+          });
+        }
+        // 关闭loading效果
+        this.isLoading = false;
+      }, 1000);
     },
     // 登录验证
     loginPass() {
