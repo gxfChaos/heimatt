@@ -7,7 +7,7 @@ export const userApi = {
     login(data) {
         return instance({
             url: '/app/v1_0/authorizations',
-            method: 'post',
+            method: 'POST',
             data
         })
     }

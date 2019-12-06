@@ -9,11 +9,12 @@ import { localData } from '../utils/localData'
 // 暴露vuex
 export default new Vuex.Store({
   state: {
-    userInfo: localData.get('userToken')
+    userInfo: localData.get('userToken') || {}
   },
   mutations: {
     SETINFO(state, payload) {
       state.userInfo = payload;
+      // localData.set('userToken',payload);
     }
   },
   actions: {

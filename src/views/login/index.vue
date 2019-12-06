@@ -47,7 +47,7 @@
 // import axios from "axios";
 
 // 导入user 接口
-import { userApi } from "../../api/user.js";
+import {userApi} from "../../api/user.js";
 // 导入本地存储方法
 import { localData } from "../../utils/localData.js";
 
@@ -57,8 +57,8 @@ export default {
     return {
       // 输入框内容
       user: {
-        mobile: "",
-        code: ""
+        mobile: "13911111111",
+        code: "246810"
       },
       // 输入框错误提示
       userError: {
@@ -71,12 +71,12 @@ export default {
   },
   methods: {
     // 登录按钮点击事件
-    loginClick() {
+   async loginClick() {
       if (!this.loginPass()) {
         return;
       }
       this.isLoading = true;
-      setTimeout(async () => {
+      // setTimeout(async () => {
         try {
           let res = await userApi.login(this.user);
           // vuex
@@ -94,7 +94,7 @@ export default {
         }
         // 关闭loading效果
         this.isLoading = false;
-      }, 1000);
+      // }, 1000);
     },
     // 登录验证
     loginPass() {
