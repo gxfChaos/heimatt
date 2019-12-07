@@ -5,7 +5,7 @@
     <!-- 导航 -->
     <van-tabs v-model="activeChannel">
       <!-- 右侧按钮 -->
-      <van-icon name="wap-nav" class="menu-icon" />
+      <van-icon name="plus" class="menu-icon" @click="showPop = true" />
       <!-- 频道列表 -->
       <van-tab v-for="item in channelList" :title="item.name" :key="item.id" animated>
         <!-- 下拉刷新 -->
@@ -28,6 +28,8 @@
         </van-pull-refresh>
       </van-tab>
     </van-tabs>
+    <!-- 弹出层子组件 -->
+    <channelpop v-model="showPop" :channelList="channelList"></channelpop>
   </div>
 </template>
 
@@ -38,6 +40,8 @@ import { channelApi } from "../../api/channel.js";
 import { localData } from "../../utils/localData.js";
 // 导入文章接口
 import { articleApi } from "../../api/article.js";
+// 导入子组件
+import channelpop from "../../components/channelPop";
 export default {
   name: "home",
   data() {
@@ -46,7 +50,9 @@ export default {
       channelList: [],
       // 当前频道下标
       activeChannel: 0,
-      // 是否处于加载状态
+      // 是否显示弹出层
+      showPop: false
+      /* // 是否处于加载状态
       loading: false,
       // 是否已加载完成
       finished: false,
@@ -55,7 +61,7 @@ export default {
       // 文章列表
       articleList: [],
       // 返回的时间戳
-      timestamp: ""
+      timestamp: ""   */
     };
   },
   methods: {
@@ -67,7 +73,6 @@ export default {
       let id = currentChannel.id;
       // 发送请求
       let res = await articleApi.list(id, this.timestamp);
-      window.console.log(res);
       // 保存文章列表
       currentChannel.articleList.push(...res.data.data.results);
       // 保存时间戳
@@ -121,6 +126,9 @@ export default {
       });
     }
   },
+  components: {
+    channelpop
+  },
   created() {
     // 获取频道列表
     this.getChannelsList();
@@ -156,7 +164,7 @@ export default {
       right: 0;
       z-index: 99;
       line-height: 44px;
-      font-size: 44px;
+      font-size: 30px;
     }
   }
 }
