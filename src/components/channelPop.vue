@@ -19,14 +19,20 @@
         </van-cell>
         <van-grid gutter="10px">
           <!-- 我的频道列表 -->
-          <van-grid-item v-for="(item,index) in channelList" :key="index" class="my-grid-item">
+          <van-grid-item
+            v-for="(item,index) in channelList"
+            :key="index"
+            class="my-grid-item"
+            :class="{'active':index === activeChannel}"
+            @click="$emit('update:activeChannel',index)"
+          >
             <template slot="text">
               {{ item.name }}
               <van-icon
                 name="close"
                 class="my-close"
                 v-if="edit && index !== 0"
-                @click="removeMyChannel(index)"
+                @click.stop="removeMyChannel(index)"
               />
             </template>
           </van-grid-item>
@@ -57,7 +63,7 @@ import { localData } from "../utils/localData";
 
 export default {
   name: "",
-  props: ["value", "channelList"],
+  props: ["value", "channelList", "activeChannel"],
   data() {
     return {
       // 全部频道数据源
@@ -149,9 +155,15 @@ export default {
   .van-grid-item {
     /deep/ .van-grid-item__content {
       background-color: #f4f5f6;
-      .van-grid-item__text {
-        color: #222222;
-      }
+      color: #222222;
+    }
+  }
+
+  // 高亮显示
+  .van-grid-item.active {
+    /deep/ .van-grid-item__content {
+      background-color: red;
+      color: #fff;
     }
   }
 }

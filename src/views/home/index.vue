@@ -10,7 +10,7 @@
       <van-tab v-for="item in channelList" :title="item.name" :key="item.id" animated>
         <!-- 下拉刷新 -->
         <van-pull-refresh v-model="item.isLoading" @refresh="onRefresh">
-          <!-- 内容 -->
+          <!-- 文章内容 -->
           <van-list
             v-model="item.loading"
             :finished="item.finished"
@@ -18,18 +18,38 @@
             @load="onLoad"
           >
             <!-- 单元格 -->
-            <van-cell
-              style="height:150px;"
-              v-for="(subItem,subIndex) in item.articleList"
-              :key="subIndex"
-              :title="subItem.title"
-            />
+            <van-cell v-for="(subItem,subIndex) in item.articleList" :key="subIndex">
+              <template slot="title">
+                {{ subItem.title }}
+                <van-grid :border="false" :column-num="3" v-if="subItem.cover.type !== 0">
+                  <van-grid-item>
+                    <van-image
+                      :src="imgItem"
+                      v-for="(imgItem,imgIndex) in subItem.cover.images"
+                      :key="imgIndex"
+                    />
+                  </van-grid-item>
+                </van-grid>
+                <div class="detail">
+                  <div class="left">
+                    <span>{{subItem.aut_name}}</span>
+                    <span>{{subItem.comm_count}}评论</span>
+                    <span>{{subItem.pubdate | dateFilter}}</span>
+                  </div>
+                  <div class="right">
+                    <van-icon name="cross" @click="openMore(subItem)" />
+                  </div>
+                </div>
+              </template>
+            </van-cell>
           </van-list>
         </van-pull-refresh>
       </van-tab>
     </van-tabs>
     <!-- 弹出层子组件 -->
-    <channelpop v-model="showPop" :channelList="channelList"></channelpop>
+    <channelpop v-model="showPop" :channelList="channelList" :activeChannel.sync="activeChannel"></channelpop>
+    <!-- more操作面板 -->
+    <more v-model="isMore" :moreItem="moreItem" @disLike="disLike"></more>
   </div>
 </template>
 
@@ -42,6 +62,8 @@ import { localData } from "../../utils/localData.js";
 import { articleApi } from "../../api/article.js";
 // 导入子组件
 import channelpop from "../../components/channelPop";
+import more from "../../components/more";
+
 export default {
   name: "home",
   data() {
@@ -51,7 +73,11 @@ export default {
       // 当前频道下标
       activeChannel: 0,
       // 是否显示弹出层
-      showPop: false
+      showPop: false,
+      // 是否显示more编辑页面
+      isMore: false,
+      // 传到more页面的item
+      moreItem: {}
       /* // 是否处于加载状态
       loading: false,
       // 是否已加载完成
@@ -124,10 +150,31 @@ export default {
         this.$set(item, "articleList", []);
         this.$set(item, "timestamp", "");
       });
+    },
+    // 设置当前高亮频道
+    changeActive(value) {
+      this.activeChannel = value;
+    },
+
+    // 显示more面板
+    openMore(subItem) {
+      this.moreItem = subItem;
+      this.isMore = true;
+    },
+    // 不感兴趣事件
+    disLike(value) {
+      this.channelList[this.activeChannel].articleList.forEach(
+        (item, index) => {
+          if (value.art_id === item.art_id) {
+            this.channelList[this.activeChannel].articleList.splice(index, 1);
+          }
+        }
+      );
     }
   },
   components: {
-    channelpop
+    channelpop,
+    more
   },
   created() {
     // 获取频道列表
@@ -165,6 +212,16 @@ export default {
       z-index: 99;
       line-height: 44px;
       font-size: 30px;
+    }
+  }
+
+  .detail {
+    display: flex;
+    justify-content: space-between;
+    .left {
+      span {
+        margin-right: 10px;
+      }
     }
   }
 }

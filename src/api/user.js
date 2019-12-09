@@ -10,5 +10,15 @@ export const userApi = {
             method: 'POST',
             data
         })
+    },
+    // 拉黑用户
+    blackList(autId) {
+        return instance({
+            url: '/app/v1_0/user/blacklists',
+            method: 'POST',
+            data: {
+                target: autId
+            }
+        })
     }
 }

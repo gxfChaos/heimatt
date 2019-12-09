@@ -16,6 +16,8 @@ import store from './store';
 import './style/base.css';
 // 导入字体文件
 import './style/iconfont.css';
+// 使用全局过滤器
+import './filters/dateFilter'
 // 设置为开发环境
 Vue.config.productionTip = false
 // vue实例
