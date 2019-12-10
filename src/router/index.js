@@ -8,6 +8,7 @@ import home from '../views/home';
 import layout from '../views/layout';
 import my from '../views/my';
 import search from '../views/search'
+import searchResult from '../views/searchResult'
 // use路由
 Vue.use(VueRouter);
 // 暴露路由
@@ -38,6 +39,11 @@ export default new VueRouter({
           component: search
         }
       ]
+    },
+    {
+      path: '/searchResult/:key',
+      name: 'searchResult',
+      component: searchResult
     }
   ]
 });
