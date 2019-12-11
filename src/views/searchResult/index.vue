@@ -9,14 +9,18 @@
     <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
       <!-- 下拉刷新 -->
       <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
-        <van-cell v-for="(item,index) in resultList" :key="index">
+        <van-cell v-for="(item,index) in resultList" :key="index" @click="detailClick(item.art_id)">
           <template slot="title">
             <!-- 标题模块 -->
             <h3>{{item.title}}</h3>
             <!-- 图片模块 -->
             <van-grid :column-num="3" v-if="item.cover.type !== 0">
               <van-grid-item v-for="(imgItem,imgIndex) in item.cover.images" :key="imgIndex">
-                <van-image :src="imgItem" lazy-load @click="openPreview(item.cover.images,imgIndex)" />
+                <van-image
+                  :src="imgItem"
+                  lazy-load
+                  @click.stop="openPreview(item.cover.images,imgIndex)"
+                />
               </van-grid-item>
             </van-grid>
             <!-- 详情模块 -->
@@ -27,21 +31,21 @@
             </div>
             <!-- 功能模块 -->
             <van-grid :column-num="3" class="shop" border>
-              <van-grid-item>
-                <div slot="default" class="shop-content" @click="commClick">
+              <van-grid-item @click.stop="commClick">
+                <div slot="default" class="shop-content">
                   <van-icon name="comment-o" />
                   <span v-if="item.comm_count !== 0">{{item.comm_count}}</span>
                   <span v-else>评论</span>
                 </div>
               </van-grid-item>
-              <van-grid-item>
+              <van-grid-item @click.stop="likeClick">
                 <div slot="default" class="shop-content">
                   <van-icon name="like-o" />
                   <span v-if="item.like_count !== 0">{{item.like_count}}</span>
                   <span v-else>点赞</span>
                 </div>
               </van-grid-item>
-              <van-grid-item>
+              <van-grid-item @click.stop="shareClick">
                 <div slot="default" class="shop-content">
                   <van-icon name="share" />
                   <span>分享</span>
@@ -57,9 +61,9 @@
       v-model="imgShow"
       :images="previewList"
       @change="onChange"
-      :start-position="1"
+      :start-position="startPosition"
     >
-      <template slot="preivewIndex">第{{ preivewIndex }}页</template>
+      <template slot="index">第{{ preivewIndex }}页</template>
     </van-image-preview>
   </div>
 </template>
@@ -81,6 +85,7 @@ export default {
       previewList: [],
       imgShow: false,
       preivewIndex: 0,
+      startPosition: 0
     };
   },
   methods: {
@@ -110,18 +115,38 @@ export default {
       }, 500);
     },
     onChange(index) {
-      this.preivewIndex = index;
-      window.console.log(this.preivewIndex);
-      window.console.log(index);
-    },
-    openPreview(value,index) {
-      this.previewList = value;
       this.preivewIndex = index + 1;
-      window.console.log(this.preivewIndex);
+      // window.console.log(this.preivewIndex);
+      // window.console.log(index);
+    },
+    openPreview(value, index) {
+      this.previewList = value;
+      this.startPosition = index;
+      // this.preivewIndex = index + 1;
+      // window.console.log('aaaaaa' + this.preivewIndex);
       this.imgShow = true;
     },
-    commClick(){
-      
+    commClick() {
+      if (this.$checkLogin()) {
+        return;
+      }
+      window.console.log("111");
+    },
+    likeClick() {
+      if (this.$checkLogin()) {
+        return;
+      }
+      window.console.log("111");
+    },
+    shareClick() {
+      if (this.$checkLogin()) {
+        return;
+      }
+      window.console.log("111");
+    },
+    // 跳转详情
+    detailClick(artId) {
+      this.$router.push(`/articleDetail/${artId}`);
     }
   },
   created() {
@@ -153,6 +178,12 @@ export default {
         font-size: 20px;
         margin-right: 5px;
       }
+    }
+  }
+
+  .details {
+    span {
+      margin-right: 15px;
     }
   }
 }

@@ -4,10 +4,13 @@ import Vue from 'vue';
 import Vant, { Lazyload, ImagePreview } from 'vant';
 // 导入vant css
 import 'vant/lib/index.css';
+// 导入自定义插件
+import { myplugin } from './utils/myplugin'
 // use vant
 Vue.use(Vant);
 Vue.use(Lazyload);
 Vue.use(ImagePreview);
+Vue.use(myplugin);
 // 导入根组件
 import App from './App.vue';
 // 导入路由

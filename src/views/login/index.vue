@@ -71,28 +71,35 @@ export default {
   },
   methods: {
     // 登录按钮点击事件
-    async loginClick() {
+    loginClick() {
       if (!this.loginPass()) {
         return;
       }
       this.isLoading = true;
-      // setTimeout(async () => {
-      try {
-        let res = await userApi.login(this.user);
-        // vuex
-        this.$store.commit("SETINFO", res.data.data);
-        // 跳转home
-        this.$router.push("/home");
-      } catch (error) {
-        this.$toast({
-          message: "手机号或验证码错误!",
-          type: "fail",
-          closeOnClick: true
-        });
-      }
-      // 关闭loading效果
-      this.isLoading = false;
-      // }, 1000);
+      setTimeout(async () => {
+        try {
+          let res = await userApi.login(this.user);
+          // vuex
+          this.$store.commit("SETINFO", res.data.data);
+          let path = this.$route.path;
+          if (path === "/login") {
+            // 跳转home
+            this.$router.push("/home");
+            return;
+          }
+          if (path === "/checkLogin") {
+            this.$router.back();
+          }
+        } catch (error) {
+          this.$toast({
+            message: "手机号或验证码错误!",
+            type: "fail",
+            closeOnClick: true
+          });
+        }
+        // 关闭loading效果
+        this.isLoading = false;
+      }, 500);
     },
     // 登录验证
     loginPass() {
