@@ -24,6 +24,7 @@
                 <van-grid :border="false" :column-num="3" v-if="subItem.cover.type !== 0">
                   <van-grid-item>
                     <van-image
+                      lazy-load
                       :src="imgItem"
                       v-for="(imgItem,imgIndex) in subItem.cover.images"
                       :key="imgIndex"

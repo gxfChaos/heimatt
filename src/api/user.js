@@ -20,5 +20,5 @@ export const userApi = {
                 target: autId
             }
         })
-    }
+    },
 }

@@ -14,7 +14,7 @@ export default new Vuex.Store({
   mutations: {
     SETINFO(state, payload) {
       state.userInfo = payload;
-      // localData.set('userToken',payload);
+      localData.set('userToken', payload);
     }
   },
   actions: {

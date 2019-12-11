@@ -47,7 +47,7 @@
 // import axios from "axios";
 
 // 导入user 接口
-import {userApi} from "../../api/user.js";
+import { userApi } from "../../api/user.js";
 // 导入本地存储方法
 import { localData } from "../../utils/localData.js";
 
@@ -71,29 +71,27 @@ export default {
   },
   methods: {
     // 登录按钮点击事件
-   async loginClick() {
+    async loginClick() {
       if (!this.loginPass()) {
         return;
       }
       this.isLoading = true;
       // setTimeout(async () => {
-        try {
-          let res = await userApi.login(this.user);
-          // vuex
-          this.$store.commit("SETINFO", res.data.data);
-          // 本地存储
-          localData.set("userToken", res.data.data);
-          // 跳转home
-          this.$router.push("/home");
-        } catch (error) {
-          this.$toast({
-            message: "手机号或验证码错误!",
-            type: "fail",
-            closeOnClick: true
-          });
-        }
-        // 关闭loading效果
-        this.isLoading = false;
+      try {
+        let res = await userApi.login(this.user);
+        // vuex
+        this.$store.commit("SETINFO", res.data.data);
+        // 跳转home
+        this.$router.push("/home");
+      } catch (error) {
+        this.$toast({
+          message: "手机号或验证码错误!",
+          type: "fail",
+          closeOnClick: true
+        });
+      }
+      // 关闭loading效果
+      this.isLoading = false;
       // }, 1000);
     },
     // 登录验证

@@ -1,11 +1,13 @@
 // 导入vue
 import Vue from 'vue';
 // 导入vant
-import Vant from 'vant';
+import Vant, { Lazyload, ImagePreview } from 'vant';
 // 导入vant css
 import 'vant/lib/index.css';
 // use vant
 Vue.use(Vant);
+Vue.use(Lazyload);
+Vue.use(ImagePreview);
 // 导入根组件
 import App from './App.vue';
 // 导入路由
