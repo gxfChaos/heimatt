@@ -35,7 +35,7 @@ instance.interceptors.response.use(function (response) {
     return response;
 }, async function (error) {
     // token失效
-    if (error.response.status = 401) {
+    if (error.response.status == 401) {
         let userInfo = store.state.userInfo;
         if (userInfo && userInfo.refresh_token) {
             let res = await refreshToken({

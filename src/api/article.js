@@ -27,6 +27,17 @@ export const articleApi = {
         })
     },
 
+    // 对文章点赞
+    like(artId) {
+        return instance({
+            url: '/app/v1_0/article/likings',
+            method: 'POST',
+            data: {
+                target: artId
+            }
+        })
+    },
+
     // 举报文章
     report(artId, type) {
         return instance({
@@ -37,6 +48,12 @@ export const articleApi = {
                 type,
                 remark: ''
             }
+        })
+    },
+    // 获取新闻文章详情
+    getArticleDetail(artId) {
+        return instance({
+            url: `/app/v1_0/articles/${artId}`
         })
     }
 }

@@ -21,4 +21,28 @@ export const userApi = {
             }
         })
     },
+    // 关注用户
+    follow(autId) {
+        return instance({
+            url: "/app/v1_0/user/followings",
+            method: 'POST',
+            data: {
+                target: autId
+            }
+        })
+    },
+    // 取消关注用户
+    unfollow(autId) {
+        return instance({
+            url: `/app/v1_0/user/followings/${autId}`,
+            method: 'DELETE',
+        })
+    },
+
+    // 获取用户自己信息
+    getSelfInfo() {
+        return instance({
+            url: "/app/v1_0/user"
+        })
+    }
 }

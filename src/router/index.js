@@ -9,7 +9,8 @@ import layout from '../views/layout';
 import my from '../views/my';
 import search from '../views/search'
 import searchResult from '../views/searchResult'
-import { articleDetail } from '../views/articleDetail'
+import articleDetail from '../views/articleDetail'
+import profile from '../views/profile'
 // use路由
 Vue.use(VueRouter);
 // 暴露路由
@@ -60,6 +61,12 @@ export default new VueRouter({
       path: '/articleDetail/:artId',
       name: 'articleDetail',
       component: articleDetail
+    },
+    // 个人信息
+    {
+      path: '/profile',
+      name: 'profile',
+      component: profile
     }
   ]
 });
